@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/asm-3.1.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/gson-2.8.1.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/jersey-bundle-1.8.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/mysql-connector-java-5.1.40.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/ormlite-core-5.0.jar"/>
+	<classpathentry kind="lib" path="/home/hagel/SWA/Libs/ormlite-jdbc-5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
