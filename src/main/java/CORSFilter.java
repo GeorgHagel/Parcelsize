@@ -1,4 +1,4 @@
-package service;
+package main.java;
 //package main.java;
 
 import javax.ws.rs.ext.Provider;

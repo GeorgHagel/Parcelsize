@@ -1,4 +1,4 @@
-package service;
+package main.java;
 //package main.java;
 
 public enum Parcelsize {

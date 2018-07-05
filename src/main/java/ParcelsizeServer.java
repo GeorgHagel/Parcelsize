@@ -1,4 +1,4 @@
-package service;
+package main.java;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -18,8 +18,8 @@ public class ParcelsizeServer {
 			server.start();
 			
 			
-			JOptionPane.showMessageDialog(null, "ParcelSize-Service started!\nClick to end");
-			server.stop(0);
+			//JOptionPane.showMessageDialog(null, "ParcelSize-Service started!\nClick to end");
+			//server.stop(0);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

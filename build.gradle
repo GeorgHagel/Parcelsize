@@ -1,0 +1,112 @@
+apply plugin: 'java'
+apply plugin: 'scala'
+
+configurations {
+    gatling
+}
+
+sourceCompatibility = 1.8
+version = '0.1'
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+        	'Implementation-Version': version,
+        	'Main-Class': 'main.java.ParcelsizeServer'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.sun.jersey', name: 'jersey-bundle', version: '1.18.3'
+    compile group: 'com.sun.jersey', name: 'jersey-json', version: '1.18.3'
+    compile group: 'asm', name: 'asm', version: '3.3.1'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.41.0'
+    compile group: 'com.github.detro.ghostdriver', name: 'phantomjsdriver', version: '1.0.1'
+     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+    compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '5.0'
+    compile group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '5.0'
+    //runtime group: 'com.sun.jersey', name: 'jersey-bundle', version: '1.18.3'
+    //runtime group: 'com.sun.jersey', name: 'jersey-json', version: '1.18.3'
+    //runtime group: 'asm', name: 'asm', version: '3.3.1'
+    //runtime group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    //runtime group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0'
+    //runtime group: 'com.github.detro.ghostdriver', name: 'phantomjsdriver', version: '1.0.1'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    gatling 'org.scala-lang:scala-library:2.11.8'
+    gatling 'io.gatling.highcharts:gatling-charts-highcharts:2.2.5'
+}
+//defines sourceSet outside the project-Source-folder for gatling test-files
+sourceSets{
+    simulations{
+        scala {
+            srcDirs = [ 'simulations/load' ]
+        }
+        resources{
+        	srcDirs = [ 'simulations/resources']
+        }
+        compileClasspath += configurations.gatling
+    }
+}
+//copys the test-files for gatling from build folder to
+//gatling classpath-folder: target/test-classes
+task copyTestFiles(type: Copy){
+	// Create a File object representing the folder 'A/B'
+	def folder = new File( 'target/test-classes' )
+	
+	// If it doesn't exist
+	if( !folder.exists() ) {
+	  // Create all folders up-to and including B
+	  folder.mkdirs()
+	}
+	def testfile = new File('build/classes/simulations/parcel_config_size/ParcelConfigSizeSimulation.class')
+	if(!testfile.exists()){
+	    println('Gatling testclass does not exist')
+	}
+
+	from 'build/classes/simulations'
+	into 'target/test-classes'
+}
+
+//Run gatling-capacity test:
+//https://dzone.com/articles/integrating-gatling-into-a-gradle-build-understand
+//dependsOn: need to execute copyTestFiles first
+task gatlingRun(type: JavaExec,dependsOn: 'copyTestFiles') {
+
+    description = 'Run gatling tests'
+
+    new File("${buildDir}/reports/gatling").mkdirs()
+
+    classpath = sourceSets.simulations.runtimeClasspath + configurations.gatling
+
+    main = "io.gatling.app.Gatling"
+
+    args = ['-s', 'ParcelConfigSizeSimulation',
+
+            '-sf', 'simulations/resources',
+
+            '-df', 'simulations/resources',
+
+            '-rf', "${buildDir}/reports/gatling"
+
+    ]
+}
+
+task showConfigurations  {
+
+    doLast {
+
+        configurations.all { conf -> println(conf) }
+
+    }
+
+}
