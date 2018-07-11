@@ -23,7 +23,7 @@ public class ParcelSizeService {
 	
 	public ParcelSizeService() {
 		db = MySQLDatabaseHandler.getDatabaseHandler();
-		db.openConnection("jdbc:mysql://MySQLParcelsize:3306/ms_parcel_size?user=user&password=mysqlTest123,");
+		db.openConnection("jdbc:mysql://MySQLParcelsize:3306/ms_parcel_size?user=user&password=mysql");
 		
 		parcelSizeMap = new HashMap<Integer,Parcelsize>();
 		parcelSizeMap = db.getParcelSizeTable();
