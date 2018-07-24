@@ -1,4 +1,4 @@
-package test.java;
+package test.java.unit;
 
 import java.util.Map;
 import java.util.TreeMap;

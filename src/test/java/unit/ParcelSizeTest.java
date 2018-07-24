@@ -1,4 +1,4 @@
-package test.java;
+package test.java.unit;
 
 import javax.ws.rs.core.Response;
 
