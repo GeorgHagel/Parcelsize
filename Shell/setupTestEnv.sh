@@ -4,15 +4,15 @@
 vagrant up
 
 #Speichern des Docker Images des MS
-docker save -o parcelsize parcelsize
+docker save -o parcelsize.tar parcelsize
 
 #Hole Dateien vom Asset Server
 wget http://192.168.56.103/images/parcelwebserver.tar
 wget http://192.168.56.103/images/mysql.tar
 
 #Lade Docker images (aus shared folder)
-vagrant ssh -c 'docker load -i /vagrant/parcelsize-service'
-vagrant ssh -c 'docker load -i /vagrant/parcelwebserver'
+vagrant ssh -c 'docker load -i /vagrant/parcelsize.tar'
+vagrant ssh -c 'docker load -i /vagrant/parcelwebserver.tar'
 vagrant ssh -c 'docker load -i /vagrant/mysql.tar'
 
 #Netzwerk einrichten
